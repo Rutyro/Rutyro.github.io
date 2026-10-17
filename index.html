@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>claude-code-bridge - MCP bridge over SSH</title>
+  <meta name="description" content="An MCP server that lets coding-agent sessions on different machines message each other over plain SSH. No cloud relay, no shared account.">
+  <link rel="canonical" href="https://rutyro.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="claude-code-bridge">
+  <meta property="og:description" content="Coding-agent sessions across machines, over plain SSH. Single file, standard library only.">
+  <meta property="og:url" content="https://rutyro.github.io/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">claude-code-bridge</a>
+      <nav aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#quickstart">Quickstart</a>
+        <a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-title">claude-code-bridge</h1>
+          <p class="tagline">Coding-agent sessions across machines, over plain SSH</p>
+          <p class="lede">Let one coding-agent session message another machine's session over SSH. No cloud relay, no shared account.</p>
+          <div class="cta-row">
+            <a class="btn" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View on GitHub</a>
+            <a class="btn ghost" href="#how">How it works</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Project facts">
+          <p class="panel-label">Open source / MIT</p>
+          <p class="panel-title">Single file, standard library only</p>
+          <pre><code>$ ssh my-server agent -p --resume &lt;session-id&gt;</code></pre>
+          <p class="panel-note">MCP over stdio. Resumable conversations. Built-in self-test.</p>
+          <a class="panel-link" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View repository</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 id="how-title">How it works</h2>
+        <p class="prose">The server runs locally as an MCP process. When you send a message, it runs <code>ssh &lt;peer&gt; &lt;command&gt; -p --resume &lt;session-id&gt;</code> and pipes the message to stdin. The remote session's stdout is the reply.</p>
+        <p class="prose">Session ids are stored per peer in a small state file. If the remote conversation is provably gone, the bridge retries once with a fresh session. A network error never resets the stored history.</p>
+        <pre><code>agent (host)  &gt;  stdio  &gt;  server.py  &gt;  ssh  &gt;  agent -p (remote)</code></pre>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <h2 id="features-title">Features</h2>
+        <div class="feature-grid">
+          <article class="card">
+            <h3>Resumable conversations</h3>
+            <p>The remote session continues across calls. Only a provably stale session is replaced.</p>
+          </article>
+          <article class="card">
+            <h3>Safe retries</h3>
+            <p>Timeouts and unreachable hosts are returned as errors without touching the stored session.</p>
+          </article>
+          <article class="card">
+            <h3>sh and cmd peers</h3>
+            <p>Correct quoting for POSIX and Windows peers. SSH binary fallbacks for common Windows installs.</p>
+          </article>
+          <article class="card">
+            <h3>Single file, no dependencies</h3>
+            <p>Python standard library only. The self-test runs with a single command.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quickstart" aria-labelledby="quickstart-title">
+      <div class="wrap">
+        <h2 id="quickstart-title">Quickstart</h2>
+        <p class="prose">Requires Python 3.11+, the same agent CLI on both machines, and SSH key auth to the peer.</p>
+        <p class="prose">Create <code>~/.cc-peer.json</code>:</p>
+        <pre><code>{
+  "peers": {
+    "my-server": {
+      "ssh": "my-server",
+      "shell": "sh",
+      "cwd": "",
+      "command": "agent",
+      "args": [],
+      "ssh_args": ["-o", "BatchMode=yes", "-o", "ConnectTimeout=10"],
+      "timeout": 600
+    }
+  }
+}</code></pre>
+        <p class="prose">Register the server with your MCP client:</p>
+        <pre><code>{
+  "mcpServers": {
+    "cc-peer": {
+      "command": "python",
+      "args": ["/path/to/server.py"]
+    }
+  }
+}</code></pre>
+        <p class="prose">Then call <code>list_peers()</code> and <code>send_message(peer="my-server", message="...")</code>.</p>
+      </div>
+    </section>
+
+    <section class="section" id="safety" aria-labelledby="safety-title">
+      <div class="wrap">
+        <h2 id="safety-title">Safety notes</h2>
+        <ul class="bullets">
+          <li>Authenticate with SSH keys and <code>BatchMode=yes</code>. The bridge never handles passwords and stores no secrets.</li>
+          <li>Everything you send becomes input to the remote session. Do not pass credentials through it.</li>
+          <li>The bridge adds no permission-bypass flags on its own.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>MIT licensed.</p>
+      <p><a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">Source on GitHub</a></p>
+    </div>
+  </footer>
+</body>
+</html>
