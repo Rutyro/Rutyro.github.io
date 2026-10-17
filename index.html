@@ -44,7 +44,7 @@
         <aside class="hero-panel" aria-label="Project facts">
           <p class="panel-label">Open source / MIT</p>
           <p class="panel-title">Single file, standard library only</p>
-          <pre><code>$ uvx claude-code-bridge-mcp==1.0.0</code></pre>
+          <pre><code>$ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
           <p class="panel-note">MCP over stdio. Resumable conversations. Built-in self-test.</p>
           <a class="panel-link" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View repository</a>
         </aside>
@@ -91,7 +91,7 @@
         <p class="prose">Install it, or run it directly with <code>uvx</code>:</p>
         <pre><code>$ pipx install claude-code-bridge-mcp==1.0.0
 # or
-$ uvx claude-code-bridge-mcp==1.0.0</code></pre>
+$ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
         <p class="prose">Create <code>~/.cc-peer.json</code>:</p>
         <pre><code>{
   "peers": {
@@ -111,7 +111,7 @@ $ uvx claude-code-bridge-mcp==1.0.0</code></pre>
   "mcpServers": {
     "cc-peer": {
       "command": "uvx",
-      "args": ["claude-code-bridge-mcp==1.0.0"]
+      "args": ["--from", "claude-code-bridge-mcp==1.0.0", "cc-peer"]
     }
   }
 }</code></pre>
