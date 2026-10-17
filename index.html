@@ -44,7 +44,7 @@
         <aside class="hero-panel" aria-label="Project facts">
           <p class="panel-label">Open source / MIT</p>
           <p class="panel-title">Single file, standard library only</p>
-          <pre><code>$ ssh my-server agent -p --resume &lt;session-id&gt;</code></pre>
+          <pre><code>$ uvx claude-code-bridge-mcp</code></pre>
           <p class="panel-note">MCP over stdio. Resumable conversations. Built-in self-test.</p>
           <a class="panel-link" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View repository</a>
         </aside>
@@ -56,7 +56,7 @@
         <h2 id="how-title">How it works</h2>
         <p class="prose">The server runs locally as an MCP process. When you send a message, it runs <code>ssh &lt;peer&gt; &lt;command&gt; -p --resume &lt;session-id&gt;</code> and pipes the message to stdin. The remote session's stdout is the reply.</p>
         <p class="prose">Session ids are stored per peer in a small state file. If the remote conversation is provably gone, the bridge retries once with a fresh session. A network error never resets the stored history.</p>
-        <pre><code>agent (host)  &gt;  stdio  &gt;  server.py  &gt;  ssh  &gt;  agent -p (remote)</code></pre>
+        <pre><code>agent (host)  &gt;  stdio  &gt;  cc_peer.py  &gt;  ssh  &gt;  agent -p (remote)</code></pre>
       </div>
     </section>
 
@@ -88,6 +88,10 @@
       <div class="wrap">
         <h2 id="quickstart-title">Quickstart</h2>
         <p class="prose">Requires Python 3.11+, the same agent CLI on both machines, and SSH key auth to the peer.</p>
+        <p class="prose">Install it, or run it directly with <code>uvx</code>:</p>
+        <pre><code>$ pipx install claude-code-bridge-mcp
+# or
+$ uvx claude-code-bridge-mcp</code></pre>
         <p class="prose">Create <code>~/.cc-peer.json</code>:</p>
         <pre><code>{
   "peers": {
@@ -106,8 +110,8 @@
         <pre><code>{
   "mcpServers": {
     "cc-peer": {
-      "command": "python",
-      "args": ["/path/to/server.py"]
+      "command": "uvx",
+      "args": ["claude-code-bridge-mcp"]
     }
   }
 }</code></pre>
