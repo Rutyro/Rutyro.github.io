@@ -1,4 +1,4 @@
-/* claude-code-bridge project page. Dark industrial-editorial. One accent, one radius system. */
+/* Rutyro portfolio. Dark industrial-editorial. One accent, one radius system. */
 
 :root {
   color-scheme: dark;
@@ -271,6 +271,38 @@ code {
   font-size: 0.9rem;
 }
 
+.hero-projects {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.hero-projects li {
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-projects a {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0.6rem 0;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.hero-projects a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.hero-projects a span:last-child {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: right;
+}
+
 /* Sections */
 
 .section {
@@ -288,6 +320,195 @@ h2 {
   margin: 0 0 1.1rem;
   max-width: 72ch;
   color: var(--soft);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.subhead {
+  margin: 2.4rem 0 0.9rem;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.note {
+  margin: 0 0 1.1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+/* Projects */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.project-media,
+.project-visual {
+  display: block;
+  border-bottom: 1px solid var(--line);
+  background: #0e0f11;
+}
+
+.project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: filter 0.15s ease;
+}
+
+.project-media:hover img {
+  filter: brightness(1.08);
+}
+
+.project-visual {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 260px;
+  padding: 1.5rem;
+}
+
+.visual-code {
+  width: 100%;
+  min-width: 0;
+}
+
+.visual-label {
+  margin: 0 0 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.visual-code pre {
+  margin: 0 0 0.75rem;
+}
+
+.visual-note {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.project-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.25rem;
+}
+
+.project-kicker {
+  margin: 0 0 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.project-body h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.3rem;
+  line-height: 1.25;
+}
+
+.project-body h3 a {
+  color: var(--text);
+}
+
+.project-body h3 a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.project-summary {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--soft);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0 0 1.1rem;
+  padding: 0;
+}
+
+.tag {
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: #0e0f11;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+}
+
+.project-links {
+  display: flex;
+  gap: 18px;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+/* Project detail */
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: start;
+  margin: 1.8rem 0 0;
+}
+
+.detail-copy .bullets {
+  margin-bottom: 1.5rem;
+}
+
+.shot {
+  margin: 0;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0e0f11;
+}
+
+.shot figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 /* Feature grid */
@@ -372,8 +593,38 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .project-grid,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-visual {
+    min-height: 200px;
+  }
+
+  nav {
+    gap: 8px 14px;
+  }
+
+  nav a {
+    font-size: 0.72rem;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
   .section {
     padding-block: 2.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 8px 16px;
   }
 }
 

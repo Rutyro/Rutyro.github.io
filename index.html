@@ -1,16 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>claude-code-bridge - MCP bridge over SSH</title>
-  <meta name="description" content="An MCP server that lets coding-agent sessions on different machines message each other over plain SSH. No cloud relay, no shared account.">
+  <title>Rutyro - SystemCompass and claude-code-bridge</title>
+  <meta name="description" content="Open-source, local-first tools. SystemCompass audits Windows startup with verified, reversible changes. claude-code-bridge connects coding-agent sessions over plain SSH.">
   <link rel="canonical" href="https://rutyro.github.io/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="claude-code-bridge">
-  <meta property="og:description" content="Coding-agent sessions across machines, over plain SSH. Single file, standard library only.">
+  <meta property="og:title" content="Rutyro - open-source tools">
+  <meta property="og:description" content="SystemCompass audits Windows startup with verified, reversible changes. claude-code-bridge connects coding-agent sessions over plain SSH.">
   <meta property="og:url" content="https://rutyro.github.io/">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://rutyro.github.io/assets/systemcompass-overview.png">
+  <meta property="og:image:alt" content="SystemCompass overview with startup charts, using fictional demo data">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -19,12 +21,12 @@
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="#top">claude-code-bridge</a>
+      <a class="brand" href="#top">Rutyro</a>
       <nav aria-label="Main">
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#quickstart">Quickstart</a>
-        <a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">GitHub</a>
+        <a href="#projects">Projects</a>
+        <a href="#systemcompass">SystemCompass</a>
+        <a href="#bridge">claude-code-bridge</a>
+        <a href="https://github.com/Rutyro" rel="noopener noreferrer">GitHub</a>
       </nav>
     </div>
   </header>
@@ -33,36 +35,139 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <h1 id="hero-title">claude-code-bridge</h1>
-          <p class="tagline">Coding-agent sessions across machines, over plain SSH</p>
-          <p class="lede">Let one coding-agent session message another machine's session over SSH. No cloud relay, no shared account.</p>
+          <h1 id="hero-title">Tools that stay on your machine.</h1>
+          <p class="tagline">Open source / local-first / Windows and coding agents</p>
+          <p class="lede">Utilities that make local state visible and changes reversible. SystemCompass audits Windows startup. claude-code-bridge connects coding-agent sessions across machines over SSH.</p>
           <div class="cta-row">
-            <a class="btn" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View on GitHub</a>
-            <a class="btn ghost" href="#how">How it works</a>
+            <a class="btn" href="#systemcompass">Explore SystemCompass</a>
+            <a class="btn ghost" href="#bridge">Explore claude-code-bridge</a>
           </div>
         </div>
-        <aside class="hero-panel" aria-label="Project facts">
-          <p class="panel-label">Open source / MIT</p>
-          <p class="panel-title">Single file, standard library only</p>
-          <pre><code>$ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
-          <p class="panel-note">MCP over stdio. Resumable conversations. Built-in self-test.</p>
-          <a class="panel-link" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View repository</a>
+        <aside class="hero-panel" aria-label="Projects">
+          <p class="panel-label">Projects / MIT</p>
+          <p class="panel-title">Two tools, one principle</p>
+          <ul class="hero-projects">
+            <li>
+              <a href="#systemcompass">
+                <span>SystemCompass</span>
+                <span>Windows startup audit</span>
+              </a>
+            </li>
+            <li>
+              <a href="#bridge">
+                <span>claude-code-bridge</span>
+                <span>MCP over SSH</span>
+              </a>
+            </li>
+          </ul>
+          <p class="panel-note">No hosted service. No telemetry. Everything runs on hardware you control.</p>
+          <a class="panel-link" href="https://github.com/Rutyro" rel="noopener noreferrer">All repositories</a>
         </aside>
       </div>
     </section>
 
-    <section class="section" id="how" aria-labelledby="how-title">
+    <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="wrap">
-        <h2 id="how-title">How it works</h2>
-        <p class="prose">The server runs locally as an MCP process. When you send a message, it runs <code>ssh &lt;peer&gt; &lt;command&gt; -p --resume &lt;session-id&gt;</code> and pipes the message to stdin. The remote session's stdout is the reply.</p>
-        <p class="prose">Session ids are stored per peer in a small state file. If the remote conversation is provably gone, the bridge retries once with a fresh session. A network error never resets the stored history.</p>
-        <pre><code>agent (host)  &gt;  stdio  &gt;  cc_peer.py  &gt;  ssh  &gt;  agent -p (remote)</code></pre>
+        <h2 id="projects-title">Projects</h2>
+        <div class="project-grid">
+          <article class="project-card">
+            <a class="project-media" href="#systemcompass" aria-label="SystemCompass details">
+              <img src="assets/systemcompass-overview.png" alt="SystemCompass overview with hygiene score, startup composition and mechanism charts, using fictional demo data" width="1440" height="920" loading="lazy">
+            </a>
+            <div class="project-body">
+              <p class="project-kicker">Windows / .NET 10 / WPF</p>
+              <h3><a href="#systemcompass">SystemCompass</a></h3>
+              <p class="project-summary">Read-only-first startup auditing for Windows. Every change is verified, journaled and reversible.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li class="tag">Windows</li>
+                <li class="tag">.NET 10</li>
+                <li class="tag">WPF</li>
+                <li class="tag">MIT</li>
+              </ul>
+              <div class="project-links">
+                <a href="#systemcompass">Details</a>
+                <a href="https://github.com/Rutyro/SystemCompass" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual">
+              <div class="visual-code">
+                <p class="visual-label">stdio / ssh / remote agent</p>
+                <pre><code>$ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
+                <p class="visual-note">MCP over stdio. Resumable conversations. Built-in self-test.</p>
+              </div>
+            </div>
+            <div class="project-body">
+              <p class="project-kicker">Python / MCP / SSH</p>
+              <h3><a href="#bridge">claude-code-bridge</a></h3>
+              <p class="project-summary">An MCP server that lets coding-agent sessions on different machines message each other over plain SSH.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li class="tag">Python</li>
+                <li class="tag">MCP</li>
+                <li class="tag">SSH</li>
+                <li class="tag">MIT</li>
+              </ul>
+              <div class="project-links">
+                <a href="#bridge">Details</a>
+                <a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="features" aria-labelledby="features-title">
+    <section class="section" id="systemcompass" aria-labelledby="systemcompass-title">
       <div class="wrap">
-        <h2 id="features-title">Features</h2>
+        <p class="eyebrow">Windows startup audit</p>
+        <h2 id="systemcompass-title">SystemCompass</h2>
+        <p class="prose">SystemCompass inventories the startup mechanisms Windows actually exposes - Run and RunOnce keys, Startup folders, scheduled tasks, automatic services and Winlogon hooks - then explains each entry by category, risk, signer and recovery advice.</p>
+        <div class="detail-grid">
+          <div class="detail-copy">
+            <ul class="bullets">
+              <li><strong>Audit first.</strong> The default run only collects and classifies. Changes are explicit, use supported Windows facilities and never delete Run values.</li>
+              <li><strong>Verified changes.</strong> Every toggle is re-read from the registry, service manager or task scheduler. A failed read-back is reported as failed.</li>
+              <li><strong>Journal and rollback.</strong> An append-only JSONL journal records the before and after state; verified changes can be rolled back.</li>
+              <li><strong>Protected entries.</strong> Windows security components, driver services and remote-access tooling are matched by signature and path and cannot be toggled.</li>
+              <li><strong>Curated tweaks.</strong> 64 evidence-labelled definitions with risk levels, captured previous values and a deny-list for security-reducing settings.</li>
+              <li><strong>Local by design.</strong> No network code, no telemetry. Markdown and JSON exports redact user names, machine names, SIDs and personal paths.</li>
+            </ul>
+            <div class="cta-row">
+              <a class="btn" href="https://github.com/Rutyro/SystemCompass" rel="noopener noreferrer">View on GitHub</a>
+              <a class="btn ghost" href="https://github.com/Rutyro/SystemCompass/blob/main/docs/security-model.md" rel="noopener noreferrer">Security model</a>
+            </div>
+          </div>
+          <figure class="shot">
+            <img src="assets/systemcompass-control-center.png" alt="SystemCompass Control Center showing catalog state, risk filters and reversible tweak definitions, using fictional demo data" width="1440" height="920" loading="lazy">
+            <figcaption>Control Center with fictional demo data. No real startup entries are shown.</figcaption>
+          </figure>
+        </div>
+        <h3 class="subhead">Try the demo</h3>
+        <pre><code>git clone https://github.com/Rutyro/SystemCompass.git
+cd SystemCompass
+dotnet run --project src/SystemCompass.App -c Release -- --demo</code></pre>
+        <p class="note">Requires the .NET 10 SDK. Demo mode uses fictional data and refuses writes.</p>
+      </div>
+    </section>
+
+    <section class="section" id="bridge" aria-labelledby="bridge-title">
+      <div class="wrap">
+        <p class="eyebrow">MCP over SSH</p>
+        <h2 id="bridge-title">claude-code-bridge</h2>
+        <p class="prose">Let one coding-agent session message another machine's session over SSH. No cloud relay, no shared account.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">View on GitHub</a>
+          <a class="btn ghost" href="#bridge-quickstart">Quickstart</a>
+        </div>
+
+        <h3 class="subhead">How it works</h3>
+        <p class="prose">The server runs locally as an MCP process. When you send a message, it runs <code>ssh &lt;peer&gt; &lt;command&gt; -p --resume &lt;session-id&gt;</code> and pipes the message to stdin. The remote session's stdout is the reply.</p>
+        <p class="prose">Session ids are stored per peer in a small state file. If the remote conversation is provably gone, the bridge retries once with a fresh session. A network error never resets the stored history.</p>
+        <pre><code>agent (host)  &gt;  stdio  &gt;  cc_peer.py  &gt;  ssh  &gt;  agent -p (remote)</code></pre>
+
+        <h3 class="subhead">Features</h3>
         <div class="feature-grid">
           <article class="card">
             <h3>Resumable conversations</h3>
@@ -81,12 +186,8 @@
             <p>Python standard library only. The self-test runs with a single command.</p>
           </article>
         </div>
-      </div>
-    </section>
 
-    <section class="section" id="quickstart" aria-labelledby="quickstart-title">
-      <div class="wrap">
-        <h2 id="quickstart-title">Quickstart</h2>
+        <h3 class="subhead" id="bridge-quickstart">Quickstart</h3>
         <p class="prose">Requires Python 3.11+, the same agent CLI on both machines, and SSH key auth to the peer.</p>
         <p class="prose">Install it, or run it directly with <code>uvx</code>:</p>
         <pre><code>$ pipx install claude-code-bridge-mcp==1.0.0
@@ -116,12 +217,8 @@ $ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
   }
 }</code></pre>
         <p class="prose">Then call <code>list_peers()</code> and <code>send_message(peer="my-server", message="...")</code>.</p>
-      </div>
-    </section>
 
-    <section class="section" id="safety" aria-labelledby="safety-title">
-      <div class="wrap">
-        <h2 id="safety-title">Safety notes</h2>
+        <h3 class="subhead">Safety notes</h3>
         <ul class="bullets">
           <li>Authenticate with SSH keys and <code>BatchMode=yes</code>. The bridge never handles passwords and stores no secrets.</li>
           <li>Everything you send becomes input to the remote session. Do not pass credentials through it.</li>
@@ -133,8 +230,14 @@ $ uvx --from claude-code-bridge-mcp==1.0.0 cc-peer</code></pre>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p>MIT licensed.</p>
-      <p><a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">Source on GitHub</a></p>
+      <p>Open source under the MIT license.</p>
+      <p>
+        <a href="https://github.com/Rutyro/SystemCompass" rel="noopener noreferrer">SystemCompass</a>
+        /
+        <a href="https://github.com/Rutyro/claude-code-bridge" rel="noopener noreferrer">claude-code-bridge</a>
+        /
+        <a href="https://github.com/Rutyro" rel="noopener noreferrer">GitHub</a>
+      </p>
     </div>
   </footer>
 </body>
